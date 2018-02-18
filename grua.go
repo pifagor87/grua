@@ -10,33 +10,38 @@ import (
 
 /* Constant error number. */
 const errc1 string = "61"
+const errc2 string = "62"
 
 /* json iterator variable. */
 var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
-
-/* Type value array. */
+/* Type value json. */
 type jsonString []string
 
-/* Generate random number. */
-func Random(path string) (string) {
-	data, _ := loadDataJson(path)
+/* Generate random user agent. */
+func Random(path string) (string, string) {
+	data, error := loadDataJson(path)
+	if error != "" {
+		return "", error
+	}
 	number := rand.NewSource(time.Now().UnixNano())
 	newNumber := rand.New(number)
 	randomNumber := newNumber.Intn(len(data))
-	return data[randomNumber]
+	result := data[randomNumber]
+	if result == "" {
+		return "", errc2
+	}
+	return result, ""
 }
 
 
 /* Load user agents. */
 func loadDataJson(path string) (jsonString, string) {
 	var data jsonString
-	err := ""
 	file, err1 := ioutil.ReadFile(path)
 	if err1 != nil {
 		fmt.Printf("File error: %v\n", err1)
-		err = errc1
 	}
 	json.Unmarshal([]byte(string(file)), &data)
-	return data, err
+	return data, errc1
 }
