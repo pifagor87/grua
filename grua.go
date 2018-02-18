@@ -2,10 +2,10 @@ package grua
 
 import (
 	"fmt"
-	"time"
-	"math/rand"
-	"io/ioutil"
 	"github.com/json-iterator/go"
+	"io/ioutil"
+	"math/rand"
+	"time"
 )
 
 /* Constant error number. */
@@ -33,7 +33,6 @@ func Random(path string) (string, string) {
 	}
 	return result, ""
 }
-
 
 /* Load user agents. */
 func loadDataJson(path string) (jsonString, string) {
